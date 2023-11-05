@@ -16,6 +16,19 @@ const updateItem = (array, action) => {
 };
 
 const removeItem = (array, action) => {
+  return array.map((item, index) => {
+    if (index !== action.payload) {
+      return item;
+    }
+
+    return {
+      ...item,
+      inBasket: false,
+    };
+  });
+};
+
+const deleteItem = (array, action) => {
   return array.filter((item, index) => index !== action.payload);
 };
 
@@ -41,6 +54,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         items: removeItem(state.items, action),
+      };
+    case "DELETE_ITEM":
+      return {
+        ...state,
+        items: deleteItem(state.items, action),
       };
     case "CLEAR_ITEMS":
       return {
